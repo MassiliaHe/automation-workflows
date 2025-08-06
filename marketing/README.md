@@ -1,50 +1,50 @@
-Back-to-School Backpack Campaign (n8n Workflow)
-This n8n workflow automates the design and launch of a marketing campaign for a backpack at back-to-school season.
-Its main purpose is to save time, boost creativity, and generate professional, ready-to-use marketing assets for both parents and students.
+# 🎒 Back-to-School Backpack Campaign (n8n Workflow)
 
-🔎 Why use this workflow?
-No design or marketing expertise required:
-The workflow uses AI to analyze your backpack’s photo and details, then automatically generates a full campaign.
+Automate your back-to-school marketing with this n8n workflow!  
+**Design, plan, and launch a creative backpack campaign in just minutes—no marketing experience required.**
 
-All-in-one automation:
-In just a few minutes, you get visuals and campaign ideas you can post right away on social media, websites, or ads.
+---
 
-Focus on your product:
-You simply upload your backpack, fill a form, and get creative assets tailored to your audience—no need to brief an agency or designer.
+## 🔎 Why Use This Workflow?
 
-Save time and energy:
-Skip repetitive manual work and speed up your back-to-school launch.
+- **No Design or Marketing Skills Needed**  
+  AI analyzes your backpack photo and product info, then automatically creates a complete campaign.
+- **All-in-One Automation**  
+  Instantly generate visuals and campaign ideas, ready to publish on social media, websites, or ads.
+- **Focus on Your Product**  
+  Upload your backpack, fill in the form, and get assets tailored for parents and students—no agency or designer needed.
+- **Save Time and Energy**  
+  Skip repetitive manual work and speed up your back-to-school launch.
 
-🏆 What does it create?
-A complete marketing campaign strategy based on your backpack’s image and description.
+---
 
-5 ready-to-use visuals with creative directions:
+## 🏆 What Does It Create?
 
-Instagram Post
+This workflow delivers:
+- A complete marketing campaign strategy, based on your backpack’s image and description.
+- **5 ready-to-use visuals** with creative direction:
+  - Instagram Post
+  - Instagram Story
+  - Website Banner
+  - Ad Creative
+  - Testimonial Graphic
 
-Instagram Story
+---
 
-Website Banner
+## 👥 Who Is It For?
 
-Ad Creative
+- Freelancers, solo entrepreneurs, and small brands
+- Marketers or e-commerce shops wanting a quick, creative campaign for school products
+- Anyone promoting a backpack for the new school year—no hassle, minimal effort
 
-Testimonial Graphic
+---
 
-👥 Who is it for?
-Freelancers, solo entrepreneurs, and small brands
+## 🚀 How to Use
 
-Marketers and e-commerce shops who want a quick, creative campaign for school products
+1. **Import** this workflow into n8n.
+2. **Connect** your Google Drive and OpenAI credentials.
+3. **Trigger the form:** Upload a product image and fill out the product information.
+4. **Let the AI work:** The workflow will generate your campaign strategy and assets.
+5. **Download** your creative visuals and briefs, ready to publish!
 
-Anyone who needs to promote a backpack for the new school year, with minimal effort
-
-🚀 How to use
-Import this workflow into n8n
-
-Connect your Google Drive and OpenAI credentials
-
-Trigger the form: upload a product image and fill out the product information
-
-Let the AI generate your marketing strategy and assets
-
-Download your campaign visuals and creative briefs, ready for publication
-
+---
