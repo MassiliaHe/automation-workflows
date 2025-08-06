@@ -1,0 +1,1177 @@
+{
+  "name": "Image_branding copy",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "7fc228f1-585b-4786-9d40-58b837990aa9",
+        "formTitle": "🎒 Générateur IA : Rentrée réussie, parents rassurés, élèves stylés !",
+        "formDescription": "Une solution intelligente pour lancer la campagne de rentrée parfaite : importez votre sac à dos, notre IA imagine la communication idéale pour plaire aux enfants et convaincre les parents.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Image de votre produit",
+              "fieldType": "file",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Nom du sac à dos",
+              "fieldType": "textarea",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Slogan du sac à dos",
+              "fieldType": "textarea"
+            },
+            {
+              "fieldLabel": "Description du sac à dos",
+              "fieldType": "textarea",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Catégorie du produit",
+              "fieldType": "textarea",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Avantage clé (ex : léger, imperméable, grande capacité, etc.)",
+              "fieldType": "textarea"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a05e5026-deb4-4275-9c53-835d624cdc94",
+      "name": "On form submission",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2,
+      "position": [
+        -780,
+        420
+      ],
+      "webhookId": "7fc228f1-585b-4786-9d40-58b837990aa9"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Générateur dynamique de profil de marque - version sac à dos rentrée scolaire\n\nconst formData = $input.first().json;\nconst binaryData = $input.first().binary;\n\n// Extraction des infos produit\nconst productName = formData[\"Nom du sac à dos\"] || '';\nconst productTagline = formData[\"Slogan du sac à dos\"] || '';\nconst productDescription = formData[\"Description du sac à dos\"] || '';\nconst productCategory = formData[\"Catégorie du produit\"] || 'Autre';\nconst highlightedBenefit = formData[\"Avantage clé (ex : léger, imperméable, grande capacité, etc.)\"] || '';\n\n// Récupération de l'image uploadée\nlet imageBinary = null;\nif (binaryData) {\n  imageBinary = binaryData['Image de votre produit'] ||\n                binaryData['product_image'] ||\n                binaryData['data'] ||\n                binaryData['Product_Image'] ||\n                binaryData[Object.keys(binaryData)[0]];\n}\n\nif (!imageBinary) {\n  throw new Error('Aucune image trouvée. Merci d\\'uploader une photo du sac à dos.');\n}\n\n// Conversion en base64 pour l’IA si besoin\nlet imageBase64 = '';\nif (Buffer.isBuffer(imageBinary)) {\n  imageBase64 = imageBinary.toString('base64');\n} else if (imageBinary.data && Buffer.isBuffer(imageBinary.data)) {\n  imageBase64 = imageBinary.data.toString('base64');\n}\n\n// Création du profil dynamique pour l’IA\nconst dynamicBrandProfile = {\n  // L’IA va compléter à partir de l’analyse du sac à dos et du contexte\n  brandName: productName || \"SAC À DOS RENTRÉE\",\n  brandTone: \"Déterminé par l’IA en fonction du public (parents/élèves)\",\n  colorTheme: \"À extraire par l’IA depuis l’image du sac à dos\",\n  backgroundStyle: \"L’IA proposera un style adapté à l’univers scolaire/enfant\",\n  lightingStyle: \"Optimisé par l’IA selon la cible (élève, parent, enseignant)\",\n  productPlacement: \"À définir par l’IA selon le positionnement du sac\",\n  typographyStyle: \"Personnalité de la marque selon l’IA\",\n  compositionGuidelines: \"Règles visuelles générées pour la cohérence campagne\",\n  \n  productInfo: {\n    name: productName,\n    tagline: productTagline,\n    description: productDescription,\n    category: productCategory,\n    benefit: highlightedBenefit,\n    imageBase64: imageBase64\n  },\n\n  needsAIProcessing: true,\n  timestamp: new Date().toISOString()\n};\n\n// Retourne le JSON ET le binaire pour exploitation par la suite\nreturn [{\n  json: dynamicBrandProfile,\n  binary: {\n    data: imageBinary // Compatible Google Drive/n8n\n  }\n}];\n"
+      },
+      "id": "88ba5031-2dbe-4776-b6c9-3d790bb5249b",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -300,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "=Image_de_votre_produit",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1Vb4q6I-eu_g28JFo_nsX71VrIvxf6NMT",
+          "mode": "list",
+          "cachedResultName": "Product_Image",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1Vb4q6I-eu_g28JFo_nsX71VrIvxf6NMT"
+        },
+        "options": {}
+      },
+      "id": "d8dbfff1-db0f-4707-bceb-fd804976ebf0",
+      "name": "Google Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -480,
+        200
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ov5Ug7LDPVcU3Tzx",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process AI Agent output with robust error handling\nconst input = $input.first();\n\n// Debug: Check what we're getting\nconsole.log('Input structure:', input ? Object.keys(input) : 'input is null');\nconsole.log('Input JSON exists:', !!input?.json);\n\n// Safely get form data\nlet formData = {};\nlet originalBinary = {};\n\ntry {\n  formData = $('On form submission').first()?.json || {};\n  originalBinary = $('On form submission').first()?.binary || {};\n  console.log('Form data keys:', Object.keys(formData));\n  console.log('Binary data keys:', Object.keys(originalBinary));\n} catch (e) {\n  console.log('Error accessing form data:', e.message);\n}\n\n// Safely extract AI Agent output\nlet aiOutput = {};\ntry {\n  if (input?.json?.output?.output) {\n    aiOutput = input.json.output.output;\n  } else if (input?.json?.output) {\n    aiOutput = input.json.output;\n  } else if (input?.json) {\n    aiOutput = input.json;\n  } else {\n    throw new Error('No AI output found');\n  }\n  console.log('AI Output keys:', Object.keys(aiOutput));\n} catch (e) {\n  console.log('Error accessing AI output:', e.message);\n  console.log('Full input:', JSON.stringify(input, null, 2));\n  throw new Error('Cannot access AI Agent output: ' + e.message);\n}\n\n// Safely extract assets and other data\nconst assets = aiOutput.assets || [];\nconst brandStrategy = aiOutput.brandStrategy || {};\nconst campaignStrategy = aiOutput.campaignStrategy || {};\n\nconsole.log('Assets found:', assets.length);\n\nif (assets.length === 0) {\n  console.log('No assets in AI output. Full aiOutput:', JSON.stringify(aiOutput, null, 2));\n  throw new Error('No assets generated by AI Agent');\n}\n\n// Safely prepare product info\nconst productInfo = {\n  name: formData[\"What is the product's name?\"] || 'Unknown Product',\n  tagline: formData[\"What is the Product Tagline?\"] || '',\n  description: formData[\"Product Description\"] || '',\n  category: formData[\"What is the Product Category?\"] || 'General',\n  benefit: formData[\"Highlighted Benefit\"] || ''\n};\n\n// Safely get binary data\nlet productImageBinary = null;\ntry {\n  if (originalBinary && Object.keys(originalBinary).length > 0) {\n    productImageBinary = originalBinary['Product Image'] || \n                        originalBinary['data'] || \n                        originalBinary[Object.keys(originalBinary)[0]];\n  }\n} catch (e) {\n  console.log('Error accessing binary data:', e.message);\n}\n\nif (!productImageBinary) {\n  console.log('Available binary keys:', Object.keys(originalBinary || {}));\n  throw new Error('Product image binary data not found');\n}\n\n// Create outputs with safe property access\nconst processedAssets = assets.map((asset, index) => {\n  const safeAsset = asset || {};\n  return {\n    json: {\n      assetIndex: index,\n      assetType: safeAsset.assetType || `Asset ${index + 1}`,\n      purpose: safeAsset.purpose || 'Marketing',\n      backgroundTone: safeAsset.backgroundTone || 'neutral background',\n      surfaceType: safeAsset.surfaceType || 'clean surface',\n      accentProp: safeAsset.accentProp || 'minimal styling',\n      lighting: safeAsset.lighting || 'natural lighting',\n      cameraAngle: safeAsset.cameraAngle || 'straight-on angle',\n      overlayText: safeAsset.overlayText || 'Premium Quality',\n      priority: safeAsset.priority || 'medium',\n      product: productInfo,\n      brand: brandStrategy,\n      campaignTheme: campaignStrategy.campaignTheme || 'Product Launch',\n      timestamp: new Date().toISOString()\n    },\n    binary: {\n      image: productImageBinary\n    }\n  };\n});\n\nconsole.log('Successfully processed assets:', processedAssets.length);\n\nreturn processedAssets;"
+      },
+      "id": "9a179c88-e447-48fa-be10-da9e1d8aec3d",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -340,
+        840
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.assetType }}",
+                    "rightValue": "Instagram Post",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "be2c4f8d-18f4-48d8-b66d-e44445dfc93e"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "35895613-ac88-462d-8761-f9d05a530182",
+                    "leftValue": "={{ $json.assetType }}",
+                    "rightValue": "=Instagram Story",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "c4419368-e947-4b71-9dc6-b52c9167c500",
+                    "leftValue": "={{ $json.assetType }}",
+                    "rightValue": "Website Banner",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "8cfd9c5d-8529-47c8-b15a-2d68e77e4026",
+                    "leftValue": "={{ $json.assetType }}",
+                    "rightValue": "Ad Creative",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 1
+                },
+                "conditions": [
+                  {
+                    "id": "15440eae-ac70-41a2-81e7-908ee7b3b90b",
+                    "leftValue": "={{ $json.assetType }}",
+                    "rightValue": "Testimonial Graphic",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3f42784d-b102-4e66-964e-3ee9c5f5cfa2",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [
+        -180,
+        780
+      ]
+    },
+    {
+      "parameters": {
+        "name": "Instagram Story",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1Vb4q6I-eu_g28JFo_nsX71VrIvxf6NMT",
+          "mode": "list",
+          "cachedResultName": "Product_Image",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1Vb4q6I-eu_g28JFo_nsX71VrIvxf6NMT"
+        },
+        "options": {}
+      },
+      "id": "2a723fb6-879e-4a51-8a2f-6ace6271aa19",
+      "name": "Google Drive2",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        700,
+        380
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ov5Ug7LDPVcU3Tzx",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "Website banner ",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1Vb4q6I-eu_g28JFo_nsX71VrIvxf6NMT",
+          "mode": "list",
+          "cachedResultName": "Product_Image",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1Vb4q6I-eu_g28JFo_nsX71VrIvxf6NMT"
+        },
+        "options": {}
+      },
+      "id": "d1ae292c-8f62-44e4-b15f-a2230513cd0c",
+      "name": "Google Drive3",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        700,
+        620
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Zik9MN6yisbgsEo2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "Ad_Creative",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1Vb4q6I-eu_g28JFo_nsX71VrIvxf6NMT",
+          "mode": "list",
+          "cachedResultName": "Product_Image",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1Vb4q6I-eu_g28JFo_nsX71VrIvxf6NMT"
+        },
+        "options": {}
+      },
+      "id": "e2670eb6-127e-4a71-aaca-48cfb89eff07",
+      "name": "Google Drive4",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        700,
+        920
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Zik9MN6yisbgsEo2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "Testimonials",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1L-xuhcuCdddL81-uzY58CGuZt1Zc_8jr",
+          "mode": "list",
+          "cachedResultName": "Procédure",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1L-xuhcuCdddL81-uzY58CGuZt1Zc_8jr"
+        },
+        "options": {}
+      },
+      "id": "573a51da-4faf-4148-a940-2f96229309a7",
+      "name": "Google Drive5",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        700,
+        1240
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "Zik9MN6yisbgsEo2",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data[0].b64_json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        340,
+        60
+      ],
+      "id": "61ba0f6e-02ba-4126-a3b0-ddbbad3a86cd",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "name": "Instagram_Post",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1Vb4q6I-eu_g28JFo_nsX71VrIvxf6NMT",
+          "mode": "list",
+          "cachedResultName": "Product_Image",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1Vb4q6I-eu_g28JFo_nsX71VrIvxf6NMT"
+        },
+        "options": {}
+      },
+      "id": "099013b9-3690-41f3-aac2-fa22ef745b40",
+      "name": "Google Drive6",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        700,
+        60
+      ],
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "ov5Ug7LDPVcU3Tzx",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-4o-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -740,
+        1040
+      ],
+      "id": "d12fb74e-3fcd-4d48-b4ce-86fa2b4b19d2",
+      "name": "OpenAI Chat Model1",
+      "credentials": {
+        "openAiApi": {
+          "id": "P3eGSh6NHnKjAEbe",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"productAnalysis\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"category\": {\"type\": \"string\"},\n        \"pricePoint\": {\"type\": \"string\"},\n        \"targetAudience\": {\"type\": \"string\"},\n        \"brandPersonality\": {\"type\": \"string\"},\n        \"competitivePosition\": {\"type\": \"string\"},\n        \"keyDifferentiators\": {\n          \"type\": \"array\",\n          \"items\": {\"type\": \"string\"}\n        }\n      }\n    },\n    \"brandStrategy\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"brandName\": {\"type\": \"string\"},\n        \"brandTone\": {\"type\": \"string\"},\n        \"brandVoice\": {\"type\": \"string\"},\n        \"colorTheme\": {\"type\": \"string\"},\n        \"backgroundStyle\": {\"type\": \"string\"},\n        \"lightingStyle\": {\"type\": \"string\"},\n        \"productPlacement\": {\"type\": \"string\"},\n        \"typographyStyle\": {\"type\": \"string\"},\n        \"compositionGuidelines\": {\"type\": \"string\"}\n      }\n    },\n    \"campaignStrategy\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"primaryObjective\": {\"type\": \"string\"},\n        \"secondaryObjectives\": {\n          \"type\": \"array\",\n          \"items\": {\"type\": \"string\"}\n        },\n        \"targetChannels\": {\n          \"type\": \"array\",\n          \"items\": {\"type\": \"string\"}\n        },\n        \"messagingPillars\": {\n          \"type\": \"array\",\n          \"items\": {\"type\": \"string\"}\n        },\n        \"campaignTheme\": {\"type\": \"string\"}\n      }\n    },\n    \"assets\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"assetType\": {\"type\": \"string\"},\n          \"purpose\": {\"type\": \"string\"},\n          \"backgroundTone\": {\"type\": \"string\"},\n          \"surfaceType\": {\"type\": \"string\"},\n          \"accentProp\": {\"type\": \"string\"},\n          \"lighting\": {\"type\": \"string\"},\n          \"cameraAngle\": {\"type\": \"string\"},\n          \"overlayText\": {\"type\": \"string\"},\n          \"priority\": {\"type\": \"string\"}\n        }\n      }\n    }\n  }\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        -500,
+        1040
+      ],
+      "id": "80bfb795-e0a9-449f-9fe2-9d2a1a86fa93",
+      "name": "Structured Output Parser1"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data[0].b64_json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        340,
+        380
+      ],
+      "id": "9301a482-cef1-4529-908a-82a5353b5823",
+      "name": "Convert to File1"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data[0].b64_json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        340,
+        620
+      ],
+      "id": "2fdbcd54-e15f-4c50-a9f9-badfd198eeeb",
+      "name": "Convert to File2"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data[0].b64_json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        340,
+        920
+      ],
+      "id": "b60f368d-26ac-44c2-8262-67b3f6be1092",
+      "name": "Convert to File3"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "data[0].b64_json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        340,
+        1240
+      ],
+      "id": "b4a4d410-983e-42ae-808a-500a73ea7630",
+      "name": "Convert to File4"
+    },
+    {
+      "parameters": {
+        "method": "=POST",
+        "url": "https://api.openai.com/v1/images/edits",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-image-1"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "image",
+              "inputDataFieldName": "=image"
+            },
+            {
+              "name": "prompt",
+              "value": "=Generate a photorealistic Instagram Post of {{ $json.product.name }} on {{ $json.backgroundTone }} background with {{ $json.surfaceType }} surface. Add {{ $json.accentProp }} as accent. Use {{ $json.lighting }} lighting from {{ $json.cameraAngle }}. Brand: {{ $json.brand.brandTone }}. Text: '{{ $json.overlayText }}'. Keep exact product from reference image."
+            },
+            {
+              "name": "size",
+              "value": "auto"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 90000
+        }
+      },
+      "id": "71fb470c-0123-4154-b573-09507ef8553a",
+      "name": "Instagram_Post",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        100,
+        60
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "P3eGSh6NHnKjAEbe",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/images/edits",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-image-1"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "image",
+              "inputDataFieldName": "=image"
+            },
+            {
+              "name": "prompt",
+              "value": "=Generate a photorealistic Instagram Post of {{ $json.product.name }} on {{ $json.backgroundTone }} background with {{ $json.surfaceType }} surface. Add {{ $json.accentProp }} as accent. Use {{ $json.lighting }} lighting from {{ $json.cameraAngle }}. Brand: {{ $json.brand.brandTone }}. Text: '{{ $json.overlayText }}'. Keep exact product from reference image."
+            },
+            {
+              "name": "size",
+              "value": "auto"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 90000
+        }
+      },
+      "id": "2b58181f-08cf-40c1-a383-b3be680ecfc7",
+      "name": "Instagram_Story",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        100,
+        380
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "P3eGSh6NHnKjAEbe",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/images/edits",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-image-1"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "image",
+              "inputDataFieldName": "=image"
+            },
+            {
+              "name": "prompt",
+              "value": "=Generate a photorealistic Instagram Post of {{ $json.product.name }} on {{ $json.backgroundTone }} background with {{ $json.surfaceType }} surface. Add {{ $json.accentProp }} as accent. Use {{ $json.lighting }} lighting from {{ $json.cameraAngle }}. Brand: {{ $json.brand.brandTone }}. Text: '{{ $json.overlayText }}'. Keep exact product from reference image."
+            },
+            {
+              "name": "size",
+              "value": "auto"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 90000
+        }
+      },
+      "id": "d06cb9d3-627c-42a0-a0ce-139bec0de577",
+      "name": "Website_Banner",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        100,
+        620
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "P3eGSh6NHnKjAEbe",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/images/edits",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-image-1"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "image",
+              "inputDataFieldName": "=image"
+            },
+            {
+              "name": "prompt",
+              "value": "=Generate a photorealistic Instagram Post of {{ $json.product.name }} on {{ $json.backgroundTone }} background with {{ $json.surfaceType }} surface. Add {{ $json.accentProp }} as accent. Use {{ $json.lighting }} lighting from {{ $json.cameraAngle }}. Brand: {{ $json.brand.brandTone }}. Text: '{{ $json.overlayText }}'. Keep exact product from reference image."
+            },
+            {
+              "name": "size",
+              "value": "auto"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 90000
+        }
+      },
+      "id": "9dd91768-4f3c-4fb4-a1ee-3896c47709b7",
+      "name": "Ad_Creative",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        100,
+        920
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "P3eGSh6NHnKjAEbe",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/images/edits",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-image-1"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "image",
+              "inputDataFieldName": "=image"
+            },
+            {
+              "name": "prompt",
+              "value": "=Generate a photorealistic Instagram Post of {{ $json.product.name }} on {{ $json.backgroundTone }} background with {{ $json.surfaceType }} surface. Add {{ $json.accentProp }} as accent. Use {{ $json.lighting }} lighting from {{ $json.cameraAngle }}. Brand: {{ $json.brand.brandTone }}. Text: '{{ $json.overlayText }}'. Keep exact product from reference image."
+            },
+            {
+              "name": "size",
+              "value": "auto"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 90000
+        }
+      },
+      "id": "3f9d6db1-4586-4c94-8cc6-05944a3ae8d6",
+      "name": "Testimonials",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        100,
+        1240
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "P3eGSh6NHnKjAEbe",
+          "name": "OpenAi account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Product Image and Characteristics Form",
+        "height": 420,
+        "width": 720,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -820,
+        140
+      ],
+      "typeVersion": 1,
+      "id": "5ae4a6a3-26ee-498b-86ed-77444cbeb961",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=VISUAL & TEXT ANALYSIS:\nAnalyze the uploaded backpack product image to extract exact colors, materials, styling, and any visible branding (including features appealing to parents or students). Then combine this with the provided product information below:\n\nBackpack Name: {{ $('On form submission').item.json[\"Nom du sac à dos\"] }}\n\nTagline: {{ $('On form submission').item.json[\"Slogan du sac à dos\"] }}\n\nDescription: {{ $('On form submission').item.json[\"Description du sac à dos\"] }}\n\nCategory: {{ $('On form submission').item.json[\"Catégorie du produit\"] }}\n\nHighlighted Benefit: {{ $('On form submission').item.json[\"Avantage clé (ex : léger, imperméable, grande capacité, etc.)\"] }}\n\nBased on BOTH the visual analysis of the image AND the text information above, create a complete marketing campaign strategy targeting parents and students for the back-to-school season.\n\nCRITICAL: You must include all sections in your response:\n\nproductAnalysis\n\nbrandStrategy (using colors from the actual image)\n\ncampaignStrategy\n\nassets (REQUIRED: Generate exactly 5 marketing assets)\n\nThe assets array must include these 5 asset types with full creative direction:\n\nInstagram Post\n\nInstagram Story\n\nWebsite Banner\n\nAd Creative\n\nTestimonial Graphic\n\nFor each asset, provide: assetType, purpose, backgroundTone, surfaceType, accentProp, lighting, cameraAngle, overlayText, priority\n\nReturn the complete JSON structure as specified in the schema.",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "You are an advanced AI marketing strategist and visual analyst. You can see and analyze backpack product images to create comprehensive, back-to-school marketing campaigns targeted at parents and students.\n\nIMPORTANT: You will receive a backpack product image along with detailed product information. Analyze both the visual and textual data to create the most accurate, effective marketing strategy for a successful school year.\n\nVISUAL ANALYSIS: Use the uploaded backpack image to extract exact colors, materials, style, and branding elements that would appeal to both parents (reassurance, quality, practicality) and students (style, trendiness).\n\nYOUR TASK: Create a complete marketing campaign strategy that includes:\n\nProduct analysis based on visual and text data\n\nBrand strategy with colors extracted from the image\n\nCampaign strategy for the back-to-school season\n\nMOST IMPORTANT: Generate 5 specific marketing assets with detailed creative direction for the campaign\n\nYou MUST return the complete JSON structure including the assets array with all 5 asset types.",
+          "passthroughBinaryImages": true
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -660,
+        840
+      ],
+      "id": "a4ab2da2-da9c-4648-b080-624899a108ac",
+      "name": "Image & Text Analyzer"
+    },
+    {
+      "parameters": {
+        "content": "## Instagram Post Generation",
+        "height": 220,
+        "width": 1100,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "0ed04592-264e-4093-ae44-5beae44e9b2f",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Instagram Story Generation",
+        "height": 220,
+        "width": 1100,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        300
+      ],
+      "typeVersion": 1,
+      "id": "624100da-0799-45d0-a60d-60b34465599b",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Website Banner Generation",
+        "height": 220,
+        "width": 1100,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        560
+      ],
+      "typeVersion": 1,
+      "id": "d3b3a899-2980-4c6c-8f91-6a3b32e09552",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Ad Creative Generation",
+        "height": 260,
+        "width": 1100,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        840
+      ],
+      "typeVersion": 1,
+      "id": "254dad81-3c05-4cf7-88ee-9e068b9ef81a",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Testimonials Generation",
+        "height": 260,
+        "width": 1100,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        1140
+      ],
+      "typeVersion": 1,
+      "id": "3167b71b-832f-4f56-a3db-a70acb418443",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "## Advanced AI marketing strategist",
+        "height": 500,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -780,
+        700
+      ],
+      "typeVersion": 1,
+      "id": "1af47353-0389-4fbc-b3dc-0ed6d6380129",
+      "name": "Sticky Note6"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Image & Text Analyzer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Instagram_Post",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Instagram_Story",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Website_Banner",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Ad_Creative",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Testimonials",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Google Drive6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Image & Text Analyzer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser1": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Image & Text Analyzer",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File2": {
+      "main": [
+        [
+          {
+            "node": "Google Drive3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File3": {
+      "main": [
+        [
+          {
+            "node": "Google Drive4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File4": {
+      "main": [
+        [
+          {
+            "node": "Google Drive5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Instagram_Post": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Instagram_Story": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Website_Banner": {
+      "main": [
+        [
+          {
+            "node": "Convert to File2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ad_Creative": {
+      "main": [
+        [
+          {
+            "node": "Convert to File3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Testimonials": {
+      "main": [
+        [
+          {
+            "node": "Convert to File4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image & Text Analyzer": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "dc5924c2-fdd2-4ce1-bbfd-7491e4e91322",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7377ed3a2ad0ad2290d95227e599f928df178344a80bb71253056cafecd98fea"
+  },
+  "id": "yov7goCGSpZIAkHj",
+  "tags": []
+}
